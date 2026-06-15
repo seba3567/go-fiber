@@ -9,7 +9,7 @@ Verifies the Fiber application is initialized with explicit production configura
 Verifies routes are organized under a versioned group (`/api/v1`) and middleware is layered in the correct order. Recovery must come first to catch panics, followed by request ID injection, logging, and authentication. Rate limiting should be scoped to specific endpoints, not applied globally. This tests that the response understands middleware ordering semantics and does not apply everything globally.
 
 ### validation-binding
-Verifies request payloads are validated through struct tags and a validator library, not through ad-hoc checks in the handler. The handler must call `c.BodyParser()` to bind the request body, run validation, and return structured 400 errors with per-field detail. This assertion catches responses that skip validation, validate only at the handler level, or return unstructured error strings.
+Verifies request payloads are validated through struct tags and a validator library, not through ad-hoc checks in the handler. The handler must call `c.Bind().Body()` to bind the request body, run validation, and return structured 400 errors with per-field detail. This assertion catches responses that skip validation, validate only at the handler level, or return unstructured error strings.
 
 ### custom-error-handler
 Verifies a centralized `ErrorHandler` exists that handles different error types (Fiber errors, validation errors, sentinel errors) and maps them to a consistent JSON shape. The response must not have handlers formatting their own error responses in different ways. This tests for production-quality error consistency.

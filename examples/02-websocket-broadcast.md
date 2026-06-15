@@ -16,7 +16,7 @@ package ws
 import (
     "sync"
 
-    "github.com/gofiber/contrib/websocket"
+    "github.com/gofiber/contrib/v3/websocket"
 )
 
 type Hub struct {
@@ -94,7 +94,7 @@ func setupRoutes(app *fiber.App, hub *Hub) {
     // Publish message via REST
     app.Post("/api/messages", func(c fiber.Ctx) error {
         var msg MessageRequest
-        if err := c.BodyParser(&msg); err != nil {
+        if err := c.Bind().Body(&msg); err != nil {
             return fiber.NewError(fiber.StatusBadRequest, "Invalid body")
         }
         data, _ := json.Marshal(msg)

@@ -125,7 +125,7 @@ func TestRequestIDMiddleware(t *testing.T) {
     app.Use(requestIDMiddleware)
     app.Get("/test", func(c fiber.Ctx) error {
         return c.JSON(fiber.Map{
-            "request_id": c.Locals("requestid"),
+            "request_id": requestid.FromContext(c),
         })
     })
 

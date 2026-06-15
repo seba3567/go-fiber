@@ -18,7 +18,7 @@
       {
         "id": "validation-binding",
         "type": "contains_concept",
-        "expected": "Request structs have validate tags, c.BodyParser() is called to parse the body, and a validator instance validates the struct with structured field-level error responses returned as 400 JSON",
+        "expected": "Request structs have validate tags, c.Bind().Body() is called to parse the body, and a validator instance validates the struct with structured field-level error responses returned as 400 JSON",
         "weight": 1.0
       },
       {

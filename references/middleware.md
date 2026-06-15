@@ -74,7 +74,7 @@ app.Use(requestid.New(requestid.Config{
 
 // Access in handler
 func handler(c fiber.Ctx) error {
-    reqID := c.Locals("requestid").(string)
+    reqID := requestid.FromContext(c)
     return c.JSON(fiber.Map{"request_id": reqID})
 }
 ```
