@@ -8,9 +8,6 @@ Fiber is built on `fasthttp`, which avoids the per-request allocations that `net
 
 ```go
 app := fiber.New(fiber.Config{
-    // Prefork spawns multiple processes for multi-core utilization
-    Prefork: false, // Enable only for pure HTTP workloads without shared state
-
     // Server tuning
     ReadTimeout:           10 * time.Second,
     WriteTimeout:          10 * time.Second,
@@ -19,7 +16,6 @@ app := fiber.New(fiber.Config{
     WriteBufferSize:       4096,
     BodyLimit:             4 * 1024 * 1024, // 4MB
     Concurrency:           256 * 1024,      // Max concurrent connections
-    DisableStartupMessage: true,            // Reduce log noise in production
 
     // Reduce allocations
     DisableDefaultContentType: true,  // Don't set Content-Type on every response
@@ -28,13 +24,14 @@ app := fiber.New(fiber.Config{
 })
 ```
 
-## Prefork Mode
+## Prefork Mode and Startup Tuning
 
-Prefork spawns one process per CPU core. Each process has its own event loop and does not share memory with others.
+Prefork spawns one process per CPU core. Each process has its own event loop and does not share memory. In Fiber v3, listen-related configurations such as Prefork and Startup messages are configured via `fiber.ListenConfig` when calling `.Listen()` or `.Listener()`.
 
 ```go
-app := fiber.New(fiber.Config{
-    Prefork: true,
+app.Listen(":8080", fiber.ListenConfig{
+    EnablePrefork:         true, // Spawns multiple processes
+    DisableStartupMessage: true, // Reduces startup log noise
 })
 ```
 
