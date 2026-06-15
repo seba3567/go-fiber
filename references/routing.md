@@ -149,23 +149,25 @@ func NewUsersApp() *fiber.App {
 
 // main.go
 usersApp := users.NewUsersApp()
-app.Mount("/api/v1/users", usersApp)
+app.Use("/api/v1/users", usersApp)
 ```
 
 ## Static File Serving
 
 ```go
+import "github.com/gofiber/fiber/v3/middleware/static"
+
 // Serve directory
-app.Static("/assets", "./public", fiber.Static{
+app.Use("/assets", static.New("./public", static.Config{
     Compress:      true,
     ByteRange:     true,
     Browse:        false,
     CacheDuration: 24 * time.Hour,
     MaxAge:        86400,
-})
+}))
 
 // Single file
-app.Static("/favicon.ico", "./public/favicon.ico")
+app.Use("/favicon.ico", static.New("./public/favicon.ico"))
 ```
 
 ## Route Patterns Summary

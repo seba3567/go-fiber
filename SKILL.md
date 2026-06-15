@@ -4,7 +4,7 @@ description: "Use when building Go Fiber services, including routing, middleware
 license: MIT
 metadata:
   author: cubis-foundry
-  version: "3.0"
+  version: "3.3.0"
 compatibility: Claude Code, Codex, GitHub Copilot
 ---
 
@@ -12,7 +12,7 @@ compatibility: Claude Code, Codex, GitHub Copilot
 
 ## Purpose
 
-Production-grade guidance for building high-performance HTTP APIs and real-time services using Go Fiber v3. Fiber is built on top of fasthttp, delivering Express-inspired ergonomics with Go's concurrency model and near-zero allocation routing.
+Production-grade guidance for building high-performance HTTP APIs and real-time services using Go Fiber v3.3.0. Fiber is built on top of fasthttp, delivering Express-inspired ergonomics with Go's concurrency model and near-zero allocation routing.
 
 ## When to Use
 
@@ -51,7 +51,7 @@ Production-grade guidance for building high-performance HTTP APIs and real-time 
 
 13. **Use `fiber/middleware/recover` as the outermost middleware** -- recover catches panics inside handlers and converts them to 500 responses. Without it, a panic in any handler crashes the entire process. Place it before all other middleware so it wraps the full chain.
 
-14. **Serve static files and templates through Fiber's built-in engines** -- use `app.Static()` for file serving with cache headers and `fiber/template/*` engines for server-side rendering. Configure `MaxAge` and `Compress` to reduce bandwidth. Do not serve static files through custom handlers because it bypasses Fiber's optimized file serving.
+14. **Serve static files and templates through Fiber's built-in engines** -- use the static middleware (`github.com/gofiber/fiber/v3/middleware/static`) for file serving with cache headers and `fiber/template/*` engines for server-side rendering. Configure `MaxAge` and `Compress` to reduce bandwidth. Do not serve static files through custom handlers because it bypasses Fiber's optimized file serving.
 
 15. **Propagate `context.Context` for downstream service calls** -- extract the request context with `c.UserContext()` and pass it to database queries, HTTP clients, and gRPC calls. This ensures cancellation propagates when clients disconnect or timeouts fire.
 
