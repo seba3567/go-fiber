@@ -104,7 +104,7 @@ type CreateBookmarkRequest struct {
 
 func createBookmark(c fiber.Ctx) error {
     var req CreateBookmarkRequest
-    if err := c.BodyParser(&req); err != nil {
+    if err := c.Bind().Body(&req); err != nil {
         return fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
     }
     if err := validate.Struct(&req); err != nil {

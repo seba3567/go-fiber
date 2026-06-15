@@ -173,7 +173,7 @@ func getUser(c fiber.Ctx) error {
 
 func createUser(c fiber.Ctx) error {
     var req CreateUserRequest
-    if err := c.BodyParser(&req); err != nil {
+    if err := c.Bind().Body(&req); err != nil {
         return fiber.NewError(fiber.StatusBadRequest, "Invalid request body")
     }
     if err := validate.Struct(&req); err != nil {

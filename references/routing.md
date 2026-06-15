@@ -104,7 +104,7 @@ app.Get("/search", func(c fiber.Ctx) error {
 
     // Parse all query params into a struct
     var filter SearchFilter
-    if err := c.QueryParser(&filter); err != nil {
+    if err := c.Bind().Query(&filter); err != nil {
         return fiber.NewError(fiber.StatusBadRequest, "Invalid query parameters")
     }
 

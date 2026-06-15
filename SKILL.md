@@ -33,7 +33,7 @@ Production-grade guidance for building high-performance HTTP APIs and real-time 
 
 4. **Build middleware as `fiber.Handler` functions that call `c.Next()`** -- each middleware must either call `c.Next()` to continue the chain or return an error/response to short-circuit. Place recovery middleware first, then logging, then auth, then route-specific middleware. Order determines execution sequence and matters for correctness.
 
-5. **Validate request bodies with a dedicated validator** -- use `go-playground/validator/v10` or a similar library and bind it through a reusable `validate()` helper that calls `c.BodyParser()` then validates the struct. Return `400` with structured field errors. Do not scatter validation logic across handlers because it becomes inconsistent and hard to test.
+5. **Validate request bodies with a dedicated validator** -- use `go-playground/validator/v10` or a similar library and bind it through a reusable `validate()` helper that calls `c.Bind().Body()` then validates the struct. Return `400` with structured field errors. Do not scatter validation logic across handlers because it becomes inconsistent and hard to test.
 
 6. **Return structured error responses with a custom `ErrorHandler`** -- define an `ErrorHandler` in the app config that maps `*fiber.Error`, sentinel errors, and validation errors to consistent JSON envelopes with `code`, `message`, and optional `details`. This centralizes error formatting and prevents handlers from inventing their own response shapes.
 
